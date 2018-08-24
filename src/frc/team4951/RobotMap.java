@@ -29,5 +29,9 @@ public class RobotMap {
 
     public static final int GYRO_CHANNEL = 0;
 
+    // BACK ELEVATOR
+
+    public static final int BACK_ELEVATOR_MOTOR = 0; // TODO Get port for back elevator motor
+
 }
 

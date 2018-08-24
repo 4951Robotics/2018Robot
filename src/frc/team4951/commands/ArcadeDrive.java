@@ -10,22 +10,15 @@ public class ArcadeDrive extends CommandBase {
     protected void initialize() {}
 
     @Override
-    protected void execute() {
-        driveTrain.arcadeDrive();
-    }
+    protected void execute() {driveTrain.arcadeDrive();}
 
     @Override
-    protected boolean isFinished() {
-        return false;
-    }
+    protected boolean isFinished() {return false;}
 
     @Override
-    protected void end() {
-
-    }
+    protected void end() {}
 
     @Override
-    protected void interrupted() {
-        super.interrupted();
-    }
+    protected void interrupted() {super.interrupted();}
+
 }

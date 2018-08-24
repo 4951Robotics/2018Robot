@@ -7,27 +7,47 @@
 
 package frc.team4951;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI implements Constants {
-    private static Joystick driverController = new Joystick(0);
 
-    private static Joystick operatorController = new Joystick(1);
+    private static final int LEFT_STICK_X = 1, LEFT_STICK_Y = 2, RIGHT_STICK_X = 3, RIGHT_STICK_Y = 5;
+    private static final int DRIVER_JOYSTICK = 1, OPERATOR_JOYSTICK = 2;
+    private static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
+            LB = 5, RB = 6, SELECT = 7, START = 8, LEFT_JOY_CLICK = 9, RIGHT_JOY_CLICK = 10;
 
-    public static double getDriverLeftY() {
-        return driverController.getRawAxis(L_YAXIS);
+    private static Joystick driverController;
+    private static Joystick operatorController;
+
+    public static void init() {
+
+        driverController = new Joystick(DRIVER_JOYSTICK);
+
+        operatorController = new Joystick(OPERATOR_JOYSTICK);
+
     }
 
-    public static double getDriverRightX() {
-        return driverController.getRawAxis(R_YAXIS);
-    }
+    public static double getDriverLeftY() {return driverController.getRawAxis(LEFT_STICK_Y);}
+
+    public static double getDriverRightX() {return driverController.getRawAxis(RIGHT_STICK_X);}
+
+    public static double getOperatorRightY() {return operatorController.getRawAxis(RIGHT_STICK_Y);}
 
     public static boolean getOperatorAButton() {return operatorController.getRawButton(A_BUTTON);}
 
     public static boolean getOperatorBButton() {return operatorController.getRawButton(B_BUTTON);}
+
+    public static boolean getOperatorXButton() {return operatorController.getRawButton(X_BUTTON);}
+
+    public static boolean getOperatorYButton() {return operatorController.getRawButton(Y_BUTTON);}
+
+
 
 }

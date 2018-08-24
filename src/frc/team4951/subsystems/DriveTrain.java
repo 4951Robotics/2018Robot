@@ -4,13 +4,12 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.team4951.Constants;
 import frc.team4951.OI;
 import frc.team4951.RobotMap;
 import frc.team4951.commands.ArcadeDrive;
 
 
-public class DriveTrain extends PIDSubsystem implements Constants {
+public class DriveTrain extends PIDSubsystem {
 
     private static DriveTrain instance;
 
@@ -47,9 +46,7 @@ public class DriveTrain extends PIDSubsystem implements Constants {
     }
 
 
-    public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDrive());
-    }
+    public void initDefaultCommand() {setDefaultCommand(new ArcadeDrive());}
 
 
     // TODO set up pid control for driving a distance
