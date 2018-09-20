@@ -48,6 +48,8 @@ public class OI {
 
     public static boolean getOperatorYButton() {return operatorController.getRawButton(Y_BUTTON);}
 
-
+    public static boolean getOperatorRB() {return operatorController.getRawButton(RB);}
+    
+    public static boolean getOperatorLB() {return operatorController.getRawButton(LB);}
 
 }

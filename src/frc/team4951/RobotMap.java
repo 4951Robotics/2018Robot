@@ -18,20 +18,26 @@ public class RobotMap {
 
     // DRIVETRAIN
 
-    public static final int LEFT_MOTOR = 0;
-    public static final int  RIGHT_MOTOR = 1;
-
+    public static final int LEFT_VICTOR = 3;
+    public static final int RIGHT_VICTOR = 4;
+    
     // INTAKE
 
-    public static final int INTAKE_MOTOR = 2;
+    public static final int INTAKE_SPARK = 5;
+    public static final int WRIST_SPARK = 7;
+    public static final int SOLENOID_F = 0, SOLENOID_R = 1;
 
     // SENSORS
 
+    public static final int  RIGHT_ENCODER_A = 0, RIGHT_ENCODER_B = 1;
     public static final int GYRO_CHANNEL = 0;
 
     // BACK ELEVATOR
 
-    public static final int BACK_ELEVATOR_MOTOR = 0; // TODO Get port for back elevator motor
+    public static final int BACK_ELEVATOR_MOTOR = 4;
 
+    // Front Elevator
+    
+    private static final int FRONT_ELEVATOR_TALON = 0;
 }
 
