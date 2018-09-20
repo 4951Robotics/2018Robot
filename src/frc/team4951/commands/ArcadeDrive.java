@@ -1,5 +1,7 @@
 package frc.team4951.commands;
 
+import frc.team4951.OI;
+
 /**
     Command used for the driver to drive the robot using controller
  */
@@ -10,7 +12,7 @@ public class ArcadeDrive extends CommandBase {
     protected void initialize() {}
 
     @Override
-    protected void execute() {driveTrain.arcadeDrive();}
+    protected void execute() {driveTrain.arcadeDrive(OI.getDriverLeftY(), OI.getDriverRightX());}
 
     @Override
     protected boolean isFinished() {return false;}
