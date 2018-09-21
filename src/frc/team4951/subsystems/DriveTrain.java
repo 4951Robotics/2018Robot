@@ -21,6 +21,8 @@ public class DriveTrain extends PIDSubsystem {
         return instance;
     }
 
+    private static final double kP = 0.1;
+
     private static final double WHEEL_DIAMETER = 6, GEAR_RATIO = 10.4/1, PULSES_PER_ROTATION = 1024;
     
     private PIDController rotationPID;
@@ -32,11 +34,11 @@ public class DriveTrain extends PIDSubsystem {
     private AnalogGyro gyro;
 
     private DriveTrain() {
-        
+
         super(0.01, 0.0, 0.0);
-        
+
         setAbsoluteTolerance(0.1);
-        
+
         VictorSP left = new VictorSP(RobotMap.LEFT_VICTOR);
         VictorSP right = new VictorSP(RobotMap.RIGHT_VICTOR);
         
@@ -48,22 +50,38 @@ public class DriveTrain extends PIDSubsystem {
         gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
         
     }
-    
+
+    public void reset() {
+        encoder.reset();
+        gyro.reset();
+    }
+
     @Override
     protected double returnPIDInput () {
         return encoder.getDistance();
     }
-    
+
     @Override
     protected void usePIDOutput (double output) {
-    
+        double error = getGyro();
+        double rotation = 0;
+        if (Math.abs(error) > 1) {
+            rotation = error * kP;
+        }
+        arcadeDrive(output, rotation);
     }
-    
+
+    public void stop() {arcadeDrive(0, 0);}
+
     public void arcadeDrive(double speed, double rotation) {
         drive.arcadeDrive(speed, rotation);
     }
     
     @Override
     protected void initDefaultCommand () {}
-    
+
+    public double getGyro() {return gyro.getAngle();}
+
+    public double getkP() {return kP;}
+
 }
