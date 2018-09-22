@@ -38,6 +38,6 @@ public class RobotMap {
 
     // Front Elevator
     
-    private static final int FRONT_ELEVATOR_TALON = 0;
+    public static final int FRONT_ELEVATOR_TALON = 0;
 }
 

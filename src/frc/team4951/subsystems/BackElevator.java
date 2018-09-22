@@ -3,11 +3,10 @@ package frc.team4951.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team4951.RobotMap;
 
 public class BackElevator extends Subsystem {
-
-    private static final int BACK_ELEVATOR_MOTOR = 0;
-
+    
     private static BackElevator instance;
 
     public static BackElevator getInstance() {
@@ -19,7 +18,7 @@ public class BackElevator extends Subsystem {
     private Spark backMotor;
 
     private BackElevator() {
-        backMotor = new Spark(BACK_ELEVATOR_MOTOR);
+        backMotor = new Spark(RobotMap.BACK_ELEVATOR_MOTOR);
     }
 
     public void moveElevator(double speed) {backMotor.set(speed);}

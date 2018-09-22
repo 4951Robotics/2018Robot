@@ -25,8 +25,6 @@ public class DriveTrain extends PIDSubsystem {
 
     private static final double WHEEL_DIAMETER = 6, GEAR_RATIO = 10.4/1, PULSES_PER_ROTATION = 1024;
     
-    private PIDController rotationPID;
-    
     private DifferentialDrive drive;
     
     private static Encoder encoder;

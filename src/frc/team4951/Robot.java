@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team4951.commands.ArcadeDrive;
-import frc.team4951.commands.CommandBase;
-import frc.team4951.commands.MoveBackElevator;
+import frc.team4951.commands.*;
+import frc.team4951.commands.Auto.AutoLine;
+import frc.team4951.commands.Auto.AutoMode;
+import frc.team4951.commands.Auto.StartPosition;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +28,8 @@ import frc.team4951.commands.MoveBackElevator;
 public class Robot extends TimedRobot {
 
     private Command autonomousCommand;
-    private SendableChooser<Command> chooser = new SendableChooser<>();
+    private SendableChooser<AutoMode> chooser = new SendableChooser<>();
+    private SendableChooser<StartPosition> start = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -37,8 +39,16 @@ public class Robot extends TimedRobot {
     public void robotInit() 
     {
         CommandBase.init();
-        // chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
+        start.addObject("Left", StartPosition.LEFT);
+        start.addObject("Center", StartPosition.CENTER);
+        start.addObject("Right", StartPosition.RIGHT);
+        SmartDashboard.putData("Starting Position", start);
+        
+        chooser.addObject("Scale", AutoMode.SCALE);
+        chooser.addObject("Scale sw", AutoMode.SCALE_SW);
+        chooser.addObject("Switch", AutoMode.SWITCH);
+        chooser.addObject("Drive", AutoMode.DRIVE);
+        SmartDashboard.putData("Auto Mode", chooser);
     }
 
     /**
@@ -47,10 +57,7 @@ public class Robot extends TimedRobot {
      * the robot is disabled.
      */
     @Override
-    public void disabledInit() 
-    {
-        
-    }
+    public void disabledInit() {}
 
     @Override
     public void disabledPeriodic() 
@@ -70,19 +77,16 @@ public class Robot extends TimedRobot {
      * to the switch structure below with additional strings & commands.
      */
     @Override
-    public void autonomousInit() 
-    {
-        autonomousCommand = chooser.getSelected();
-
-        /*
-         * String autoSelected = SmartDashboard.getString("Auto Selector",
-         * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-         * = new MyAutoCommand(); break; case "Default Auto": default:
-         * autonomousCommand = new ExampleCommand(); break; }
-         */
-
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) 
+    public void autonomousInit() {
+        
+        switch (chooser.getSelected()) {
+            
+            case DRIVE:
+                autonomousCommand = new AutoLine();
+                break;
+        }
+        
+        if (autonomousCommand != null)
         {
             autonomousCommand.start();
         }
@@ -111,8 +115,14 @@ public class Robot extends TimedRobot {
         Command arcadeDrive = new ArcadeDrive();
         arcadeDrive.start();
 
-        Command backElevatorControls = new MoveBackElevator();
+        Command backElevatorControls = new BackElevatorControl();
         backElevatorControls.start();
+        
+        Command intakeControl = new IntakeControl();
+        intakeControl.start();
+        
+        Command frontElevatorControl = new FrontElevatorControl();
+        frontElevatorControl.start();
     }
 
     /**

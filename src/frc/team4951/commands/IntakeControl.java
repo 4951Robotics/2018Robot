@@ -3,7 +3,12 @@ package frc.team4951.commands;
 import frc.team4951.OI;
 
 public class IntakeControl extends CommandBase {
-
+    
+    @Override
+    protected void initialize () {
+        requires(intake);
+    }
+    
     @Override
     protected void execute() {
 
@@ -21,4 +26,5 @@ public class IntakeControl extends CommandBase {
         }
 
     }
+    
 }

@@ -1,12 +1,18 @@
 package frc.team4951.commands;
 
 import frc.team4951.OI;
+import frc.team4951.subsystems.BackElevator;
 
-public class MoveBackElevator extends CommandBase {
+public class BackElevatorControl extends CommandBase {
 
     private static final double MOTOR_SPEED = 0.8;
     private static final double DEADZONE = 0.5;
-
+    
+    @Override
+    protected void initialize () {
+        requires(backElevator);
+    }
+    
     @Override
     protected void execute() {
         if (OI.getOperatorRightY() >= DEADZONE)
@@ -17,7 +23,7 @@ public class MoveBackElevator extends CommandBase {
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(OI.getOperatorRightY()) < DEADZONE;
+        return Math.abs(OI.getOperatorLeftY()) < DEADZONE;
     }
 
     @Override

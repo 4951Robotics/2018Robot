@@ -9,7 +9,9 @@ import frc.team4951.OI;
 public class ArcadeDrive extends CommandBase {
 
     @Override
-    protected void initialize() {}
+    protected void initialize() {
+        requires(driveTrain);
+    }
 
     @Override
     protected void execute() {driveTrain.arcadeDrive(OI.getDriverLeftY(), OI.getDriverRightX());}
