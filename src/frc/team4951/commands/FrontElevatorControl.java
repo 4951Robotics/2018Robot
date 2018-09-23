@@ -1,5 +1,6 @@
 package frc.team4951.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.team4951.OI;
 
 public class FrontElevatorControl extends CommandBase {
@@ -8,6 +9,7 @@ public class FrontElevatorControl extends CommandBase {
         BASE, SWITCH, SCALE1, SCALE2
     }
     private HEIGHTS desiredHeight;
+    
     
     // Constant heights of switch and scale
     private static final double[] height_distances = {0, 18, 60, 72};
@@ -37,12 +39,17 @@ public class FrontElevatorControl extends CommandBase {
             }
         }
         
+        if (desiredHeight == HEIGHTS.BASE)
+            frontElevator.neutralMode(NeutralMode.Coast);
+        else
+            frontElevator.neutralMode(NeutralMode.Brake);
+        
         frontElevator.setHeight(height_distances[desiredHeight.ordinal()]);
         
     }
 
     @Override
-    protected boolean isFinished() {return false;}
+    protected boolean isFinished() {return frontElevator.onTarget();}
 
     @Override
     protected void end() {}

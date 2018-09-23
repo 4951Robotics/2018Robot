@@ -7,6 +7,7 @@
 
 package frc.team4951;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,8 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team4951.commands.*;
 import frc.team4951.commands.Auto.AutoLine;
-import frc.team4951.commands.Auto.AutoMode;
-import frc.team4951.commands.Auto.StartPosition;
+import frc.team4951.commands.Auto.Autonomous;
+import frc.team4951.subsystems.DriveTrain;
+import frc.team4951.subsystems.FrontElevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,9 +30,11 @@ import frc.team4951.commands.Auto.StartPosition;
 public class Robot extends TimedRobot {
 
     private Command autonomousCommand;
-    private SendableChooser<AutoMode> chooser = new SendableChooser<>();
-    private SendableChooser<StartPosition> start = new SendableChooser<>();
+    private SendableChooser<Autonomous.AutoMode> chooser = new SendableChooser<>();
+    private SendableChooser<Autonomous.StartPosition> start = new SendableChooser<>();
 
+    private Compressor compressor;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -39,16 +43,18 @@ public class Robot extends TimedRobot {
     public void robotInit() 
     {
         CommandBase.init();
-        start.addObject("Left", StartPosition.LEFT);
-        start.addObject("Center", StartPosition.CENTER);
-        start.addObject("Right", StartPosition.RIGHT);
+        start.addObject("Left", Autonomous.StartPosition.LEFT);
+        start.addObject("Center", Autonomous.StartPosition.CENTER);
+        start.addObject("Right", Autonomous.StartPosition.RIGHT);
         SmartDashboard.putData("Starting Position", start);
         
-        chooser.addObject("Scale", AutoMode.SCALE);
-        chooser.addObject("Scale sw", AutoMode.SCALE_SW);
-        chooser.addObject("Switch", AutoMode.SWITCH);
-        chooser.addObject("Drive", AutoMode.DRIVE);
+        chooser.addObject("Scale", Autonomous.AutoMode.SCALE);
+        chooser.addObject("Switch", Autonomous.AutoMode.SWITCH);
+        chooser.addObject("Drive", Autonomous.AutoMode.DRIVE);
         SmartDashboard.putData("Auto Mode", chooser);
+        
+        compressor = new Compressor();
+        compressor.start();
     }
 
     /**
@@ -79,17 +85,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         
-        switch (chooser.getSelected()) {
-            
-            case DRIVE:
-                autonomousCommand = new AutoLine();
-                break;
-        }
+        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
         
-        if (autonomousCommand != null)
-        {
-            autonomousCommand.start();
-        }
+        autonomousCommand.start();
     }
 
     /**
@@ -129,9 +127,9 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control.
      */
     @Override
-    public void teleopPeriodic() 
-    {
+    public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        log();
     }
 
     /**
@@ -139,7 +137,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() 
-    {
-        
+    {}
+    
+    private void log() {
+        DriveTrain.getInstance().log();
+        FrontElevator.getInstance().log();
     }
 }

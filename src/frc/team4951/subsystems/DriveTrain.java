@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team4951.OI;
 import frc.team4951.Robot;
 import frc.team4951.RobotMap;
@@ -23,7 +24,7 @@ public class DriveTrain extends PIDSubsystem {
 
     private static final double kP = 0.1;
 
-    private static final double WHEEL_DIAMETER = 6, GEAR_RATIO = 10.4/1, PULSES_PER_ROTATION = 1024;
+    private static final double INCHES_PER_PULSE = 0.1; // TODO find inches travelled per encoder pulse
     
     private DifferentialDrive drive;
     
@@ -43,7 +44,7 @@ public class DriveTrain extends PIDSubsystem {
         drive = new DifferentialDrive(left, right);
 
         encoder = new Encoder(RobotMap.RIGHT_ENCODER_A, RobotMap.RIGHT_ENCODER_B);
-        encoder.setDistancePerPulse(WHEEL_DIAMETER * Math.PI / PULSES_PER_ROTATION / GEAR_RATIO);
+        encoder.setDistancePerPulse(INCHES_PER_PULSE);
         
         gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
         
@@ -61,7 +62,7 @@ public class DriveTrain extends PIDSubsystem {
 
     @Override
     protected void usePIDOutput (double output) {
-        double error = getGyro();
+        double error = -getGyro();
         double rotation = 0;
         if (Math.abs(error) > 1) {
             rotation = error * kP;
@@ -76,10 +77,15 @@ public class DriveTrain extends PIDSubsystem {
     }
     
     @Override
-    protected void initDefaultCommand () {}
+    protected void initDefaultCommand () {setDefaultCommand(new ArcadeDrive());}
 
     public double getGyro() {return gyro.getAngle();}
 
     public double getkP() {return kP;}
+    
+    public void log() {
+        SmartDashboard.putNumber("Right Encoder", encoder.get());
+        SmartDashboard.putNumber("Gyro", gyro.getAngle());
+    }
 
 }

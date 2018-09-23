@@ -2,6 +2,7 @@ package frc.team4951.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team4951.RobotMap;
 import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
@@ -19,13 +21,11 @@ public class FrontElevator extends Subsystem {
     
     private static FrontElevator instance;
     
-    // TODO find
-    private static final int TIMEOUT = 30, CRUISE_VEL = 0, ACCELERATION = 0, TICKS_PER_ROTATION = 4069,
-                                TOP_LIMIT = 1000, BOTTOM_LIMIT = 100;
+    private static final int TIMEOUT = 30, CRUISE_VEL = 0, ACCELERATION = 0,
+                                TOP_LIMIT = 10000, BOTTOM_LIMIT = 100, THRESHOLD = 10;
     
-    private static final double PITCH_DIAMETER = 3; // Pitch diameter of sprocket
-    
-    private static final double GEAR_RATIO = 9/1.0;
+    // TODO find encoder ticks per inch of movement
+    private static final double TICKS_PER_INCH = 500;
     
     public static FrontElevator getInstance() {
         if (instance == null)
@@ -61,19 +61,25 @@ public class FrontElevator extends Subsystem {
     }
     
     @Override
-    protected void initDefaultCommand () {
+    protected void initDefaultCommand () {}
     
+    public void log() {
+        SmartDashboard.putNumber("Elevator Encoder", talon.getSelectedSensorPosition());
     }
     
-    private void reset () {
-        talon.setSelectedSensorPosition(0);
+    public void neutralMode(NeutralMode neutralMode) {talon.setNeutralMode(neutralMode);}
+    
+    private void reset () {talon.setSelectedSensorPosition(0);}
+    
+    public boolean onTarget() {
+        return Math.abs(talon.getClosedLoopTarget() - talon.getClosedLoopError()) <= THRESHOLD;
     }
     
     /**
      * @param height Height of the elevator to travel, in inches (for now, might change to encoder ticks)
      */
     public void setHeight(double height) {
-        talon.set(ControlMode.MotionMagic, height / (PITCH_DIAMETER * Math.PI) * GEAR_RATIO * TICKS_PER_ROTATION);
+        talon.set(ControlMode.MotionMagic, height * TICKS_PER_INCH);
     }
     
     /**
