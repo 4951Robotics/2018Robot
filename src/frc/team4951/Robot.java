@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team4951.commands.*;
-import frc.team4951.commands.Auto.AutoLine;
 import frc.team4951.commands.Auto.Autonomous;
 import frc.team4951.subsystems.DriveTrain;
 import frc.team4951.subsystems.FrontElevator;
@@ -85,9 +84,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         
-        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
+//        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
         
-        autonomousCommand.start();
+  //      autonomousCommand.start();
     }
 
     /**
@@ -119,7 +118,7 @@ public class Robot extends TimedRobot {
         Command intakeControl = new IntakeControl();
         intakeControl.start();
         
-        Command frontElevatorControl = new FrontElevatorControl();
+        Command frontElevatorControl = new FrontElevatorManual();
         frontElevatorControl.start();
     }
 

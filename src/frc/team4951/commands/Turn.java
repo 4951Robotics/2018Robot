@@ -6,7 +6,6 @@ public class Turn extends CommandBase {
     private double error;
 
     public Turn(double t) {
-        requires(driveTrain);
         error = 0;
         target = t;
     }

@@ -11,7 +11,6 @@ public class DriveStraight extends CommandBase {
     private double targetDistance;
     
     public DriveStraight(double distance) {
-        requires(driveTrain);
         targetDistance = distance;
         driveTrain.reset();
     }

@@ -57,6 +57,7 @@ public class FrontElevator extends Subsystem {
         talon.configReverseSoftLimitThreshold(BOTTOM_LIMIT);
         talon.configForwardSoftLimitEnable(true);
         talon.configReverseSoftLimitEnable(true);
+        talon.setNeutralMode(NeutralMode.Coast);
         reset();
     }
     
@@ -85,7 +86,7 @@ public class FrontElevator extends Subsystem {
     /**
      * @param speed Percent output from -1 to 1
      */
-    private void manualMove(double speed) {
+    public void manualMove(double speed) {
         talon.set(ControlMode.PercentOutput, speed);
     }
     

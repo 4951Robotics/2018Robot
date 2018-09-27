@@ -2,7 +2,6 @@ package frc.team4951.commands.Auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.team4951.commands.DriveStraight;
-import frc.team4951.commands.FrontElevatorControl;
 import frc.team4951.commands.IntakeOut;
 import frc.team4951.commands.Turn;
 

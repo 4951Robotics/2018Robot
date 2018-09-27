@@ -1,12 +1,15 @@
 package frc.team4951.commands;
 
+import frc.team4951.ButtonDebouncer;
 import frc.team4951.OI;
 
 public class IntakeControl extends CommandBase {
-    
+
+    private ButtonDebouncer debouncer;
+
     @Override
     protected void initialize () {
-        requires(intake);
+        debouncer = new ButtonDebouncer(OI.getOperatorController(), OI.B_BUTTON);
     }
     
     @Override
@@ -16,9 +19,11 @@ public class IntakeControl extends CommandBase {
             intake.in();
         } else if (OI.getOperatorLB()) {
             intake.out();
+        } else {
+            intake.stop();
         }
 
-        if (OI.getOperatorBButton()) {
+        if (debouncer.get()) {
             if (intake.isOpen())
                 intake.close();
             else

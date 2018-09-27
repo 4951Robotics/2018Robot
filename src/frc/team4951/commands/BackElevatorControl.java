@@ -10,20 +10,21 @@ public class BackElevatorControl extends CommandBase {
     
     @Override
     protected void initialize () {
-        requires(backElevator);
     }
     
     @Override
     protected void execute() {
-        if (OI.getOperatorRightY() >= DEADZONE)
+        if (OI.getOperatorLeftY() >= DEADZONE)
             backElevator.moveElevator(MOTOR_SPEED);
-        else if (OI.getOperatorRightY() <= -DEADZONE)
+        else if (OI.getOperatorLeftY() <= -DEADZONE)
             backElevator.moveElevator(-MOTOR_SPEED);
+        else
+            backElevator.stop();
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(OI.getOperatorLeftY()) < DEADZONE;
+        return false;
     }
 
     @Override

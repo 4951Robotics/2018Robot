@@ -9,6 +9,7 @@ package frc.team4951;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -18,9 +19,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-    private static final int LEFT_STICK_X = 1, LEFT_STICK_Y = 2, RIGHT_STICK_X = 3, RIGHT_STICK_Y = 5;
-    private static final int DRIVER_JOYSTICK = 1, OPERATOR_JOYSTICK = 2;
-    private static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
+    private static final int LEFT_STICK_X = 1, LEFT_STICK_Y = 1, RIGHT_STICK_X = 3, RIGHT_STICK_Y = 5;
+    private static final int DRIVER_JOYSTICK = 0, OPERATOR_JOYSTICK = 1;
+    public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
             LB = 5, RB = 6, SELECT = 7, START = 8, LEFT_JOY_CLICK = 9, RIGHT_JOY_CLICK = 10;
 
     private static Joystick driverController;
@@ -54,4 +55,7 @@ public class OI {
     
     public static boolean getOperatorLB() {return operatorController.getRawButton(LB);}
 
+    public static Joystick getDriverController() {return driverController;}
+
+    public static Joystick getOperatorController() {return operatorController;}
 }

@@ -10,7 +10,6 @@ public class ArcadeDrive extends CommandBase {
 
     @Override
     protected void initialize() {
-        requires(driveTrain);
     }
 
     @Override

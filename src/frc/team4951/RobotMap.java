@@ -19,7 +19,7 @@ public class RobotMap {
     // DRIVETRAIN
 
     public static final int LEFT_VICTOR = 3;
-    public static final int RIGHT_VICTOR = 4;
+    public static final int RIGHT_VICTOR = 2;
     
     // INTAKE
 
@@ -38,6 +38,6 @@ public class RobotMap {
 
     // Front Elevator
     
-    public static final int FRONT_ELEVATOR_TALON = 0;
+    public static final int FRONT_ELEVATOR_TALON = 2;
 }
 

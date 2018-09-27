@@ -36,6 +36,8 @@ public class Intake extends Subsystem {
     public void in() {wheels.set(IN_SPEED);}
     
     public void out() {wheels.set(OUT_SPEED);}
+
+    public void stop() {wheels.set(0);}
     
     public void open() {solenoid.set(DoubleSolenoid.Value.kForward);}
     

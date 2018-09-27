@@ -24,7 +24,7 @@ public class DriveTrain extends PIDSubsystem {
 
     private static final double kP = 0.1;
 
-    private static final double INCHES_PER_PULSE = 0.1; // TODO find inches travelled per encoder pulse
+    private static final double INCHES_PER_PULSE = 6 * Math.PI / 10.71 / 1440; // TODO find inches travelled per encoder pulse
     
     private DifferentialDrive drive;
     
@@ -77,7 +77,7 @@ public class DriveTrain extends PIDSubsystem {
     }
     
     @Override
-    protected void initDefaultCommand () {setDefaultCommand(new ArcadeDrive());}
+    protected void initDefaultCommand () {}
 
     public double getGyro() {return gyro.getAngle();}
 
