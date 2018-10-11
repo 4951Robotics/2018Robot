@@ -46,6 +46,8 @@ public class Intake extends Subsystem {
     public void wristUp() {wrist.set(WRIST_SPEED);}
     
     public void wristDown() {wrist.set(-WRIST_SPEED);}
+
+    public void wristStop() {wrist.set(0);}
     
     public boolean isOpen() {return solenoid.get() == DoubleSolenoid.Value.kForward;}
 

@@ -1,16 +1,20 @@
 package frc.team4951.commands;
 
 import frc.team4951.OI;
-import frc.team4951.commands.CommandBase;
 
 public class FrontElevatorManual extends CommandBase {
 
-    private static final double DEADZONE = 0.5;
+    private static final double DEADZONE = 0.2;
+
+    @Override
+    protected void initialize() {
+        requires(driveTrain);
+    }
 
     @Override
     protected void execute() {
-        if (OI.getOperatorRightY() > DEADZONE) {
-            frontElevator.manualMove(OI.getOperatorRightY());
+        if (Math.abs(OI.getOperatorRightY()) > DEADZONE) {
+            frontElevator.manualMove(-OI.getOperatorRightY());
         } else
             frontElevator.manualMove(0);
     }

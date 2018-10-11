@@ -42,14 +42,14 @@ public class Robot extends TimedRobot {
     public void robotInit() 
     {
         CommandBase.init();
-        start.addObject("Left", Autonomous.StartPosition.LEFT);
+        start.addDefault("Left", Autonomous.StartPosition.LEFT);
         start.addObject("Center", Autonomous.StartPosition.CENTER);
         start.addObject("Right", Autonomous.StartPosition.RIGHT);
         SmartDashboard.putData("Starting Position", start);
         
         chooser.addObject("Scale", Autonomous.AutoMode.SCALE);
         chooser.addObject("Switch", Autonomous.AutoMode.SWITCH);
-        chooser.addObject("Drive", Autonomous.AutoMode.DRIVE);
+        chooser.addDefault("Drive", Autonomous.AutoMode.DRIVE);
         SmartDashboard.putData("Auto Mode", chooser);
         
         compressor = new Compressor();
@@ -83,7 +83,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        
+
+        new Turn(180).start();
 //        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
         
   //      autonomousCommand.start();
@@ -96,6 +97,7 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() 
     {
         Scheduler.getInstance().run();
+        log();
     }
 
     @Override

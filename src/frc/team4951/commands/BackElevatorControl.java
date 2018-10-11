@@ -5,8 +5,7 @@ import frc.team4951.subsystems.BackElevator;
 
 public class BackElevatorControl extends CommandBase {
 
-    private static final double MOTOR_SPEED = 0.8;
-    private static final double DEADZONE = 0.5;
+    private static final double DEADZONE = 0.3;
     
     @Override
     protected void initialize () {
@@ -14,10 +13,8 @@ public class BackElevatorControl extends CommandBase {
     
     @Override
     protected void execute() {
-        if (OI.getOperatorLeftY() >= DEADZONE)
-            backElevator.moveElevator(MOTOR_SPEED);
-        else if (OI.getOperatorLeftY() <= -DEADZONE)
-            backElevator.moveElevator(-MOTOR_SPEED);
+        if (Math.abs(OI.getOperatorLeftY()) >= DEADZONE)
+            backElevator.moveElevator(-OI.getOperatorLeftY());
         else
             backElevator.stop();
     }

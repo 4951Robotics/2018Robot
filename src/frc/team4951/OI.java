@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-    private static final int LEFT_STICK_X = 1, LEFT_STICK_Y = 1, RIGHT_STICK_X = 3, RIGHT_STICK_Y = 5;
+    private static final int LEFT_STICK_X = 1, LEFT_STICK_Y = 1, RIGHT_STICK_X = 4, RIGHT_STICK_Y = 5;
     private static final int DRIVER_JOYSTICK = 0, OPERATOR_JOYSTICK = 1;
     public static final int A_BUTTON = 1, B_BUTTON = 2, X_BUTTON = 3, Y_BUTTON = 4,
             LB = 5, RB = 6, SELECT = 7, START = 8, LEFT_JOY_CLICK = 9, RIGHT_JOY_CLICK = 10;
@@ -50,6 +50,10 @@ public class OI {
     public static boolean getOperatorXButton() {return operatorController.getRawButton(X_BUTTON);}
 
     public static boolean getOperatorYButton() {return operatorController.getRawButton(Y_BUTTON);}
+
+    public static boolean getOperatorSelect() {return operatorController.getRawButton(SELECT);}
+
+    public static boolean getOperatorStart() {return operatorController.getRawButton(START);}
 
     public static boolean getOperatorRB() {return operatorController.getRawButton(RB);}
     

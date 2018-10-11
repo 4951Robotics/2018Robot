@@ -39,5 +39,6 @@ public class RobotMap {
     // Front Elevator
     
     public static final int FRONT_ELEVATOR_TALON = 2;
+    public static final int BOTTOM_LIMIT_SWITCH = 0;
 }
 

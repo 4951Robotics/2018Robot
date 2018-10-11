@@ -22,10 +22,10 @@ public class DriveTrain extends PIDSubsystem {
         return instance;
     }
 
-    private static final double kP = 0.1;
+    private static final double kP = 1.0/90;
 
     private static final double INCHES_PER_PULSE = 6 * Math.PI / 10.71 / 1440; // TODO find inches travelled per encoder pulse
-    
+
     private DifferentialDrive drive;
     
     private static Encoder encoder;
@@ -47,7 +47,8 @@ public class DriveTrain extends PIDSubsystem {
         encoder.setDistancePerPulse(INCHES_PER_PULSE);
         
         gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
-        
+
+
     }
 
     public void reset() {
@@ -75,16 +76,17 @@ public class DriveTrain extends PIDSubsystem {
     public void arcadeDrive(double speed, double rotation) {
         drive.arcadeDrive(speed, rotation);
     }
+
+    public void arcadeDrive(double speed, double rotation, boolean squaredInputs) {drive.arcadeDrive(speed, rotation, squaredInputs);}
     
     @Override
     protected void initDefaultCommand () {}
 
     public double getGyro() {return gyro.getAngle();}
 
-    public double getkP() {return kP;}
-    
     public void log() {
-        SmartDashboard.putNumber("Right Encoder", encoder.get());
+        SmartDashboard.putNumber("Encoder", encoder.get());
+        SmartDashboard.putNumber("Encoder Distance", encoder.getDistance());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
     }
 

@@ -30,6 +30,14 @@ public class IntakeControl extends CommandBase {
                 intake.open();
         }
 
+        if (OI.getOperatorSelect()) {
+            intake.wristUp();
+        } else if (OI.getOperatorStart()) {
+            intake.wristDown();
+        } else {
+            intake.wristStop();
+        }
+
     }
     
 }
