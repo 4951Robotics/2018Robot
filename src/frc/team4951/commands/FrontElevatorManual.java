@@ -7,11 +7,6 @@ public class FrontElevatorManual extends CommandBase {
     private static final double DEADZONE = 0.2;
 
     @Override
-    protected void initialize() {
-        requires(driveTrain);
-    }
-
-    @Override
     protected void execute() {
         if (Math.abs(OI.getOperatorRightY()) > DEADZONE) {
             frontElevator.manualMove(-OI.getOperatorRightY());

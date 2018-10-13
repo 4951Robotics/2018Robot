@@ -36,7 +36,9 @@ public class DriveTrain extends PIDSubsystem {
 
         super(0.01, 0.0, 0.0);
 
-        setAbsoluteTolerance(0.1);
+        setAbsoluteTolerance(1.0/12);
+
+        setOutputRange(-0.8, 0.8);
 
         VictorSP left = new VictorSP(RobotMap.LEFT_VICTOR);
         VictorSP right = new VictorSP(RobotMap.RIGHT_VICTOR);
@@ -47,7 +49,6 @@ public class DriveTrain extends PIDSubsystem {
         encoder.setDistancePerPulse(INCHES_PER_PULSE);
         
         gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
-
 
     }
 

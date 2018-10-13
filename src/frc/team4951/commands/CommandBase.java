@@ -9,7 +9,7 @@ import frc.team4951.subsystems.Intake;
 
 public class CommandBase extends Command {
 
-    static DriveTrain driveTrain;
+    public static DriveTrain driveTrain;
     static BackElevator backElevator;
     static Intake intake;
     static FrontElevator frontElevator;

@@ -7,7 +7,7 @@ public class Turn extends PIDCommandBase {
         getPIDController().setAbsoluteTolerance(2);
         getPIDController().setContinuous(true);
         getPIDController().setInputRange(0, 360);
-        getPIDController().setOutputRange(-1, 1);
+        getPIDController().setOutputRange(-0.7, 0.7);
         setSetpoint(t);
     }
 

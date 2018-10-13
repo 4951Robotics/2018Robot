@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class ButtonDebouncer {
 
+    /*
+    Button debouncer so button only registers once when pressed
+     */
+
     private Joystick joystick;
     private int button;
     private double latest;

@@ -1,21 +1,21 @@
 package frc.team4951.commands;
 
-public class IntakeOut extends CommandBase {
+public class DropIntake extends CommandBase{
 
     private double timeout;
 
-    public IntakeOut(double timeout) {
+    public DropIntake(double timeout) {
         this.timeout = timeout;
     }
 
     @Override
-    protected void initialize () {
+    protected void initialize() {
         setTimeout(timeout);
     }
 
     @Override
-    protected void execute () {
-        intake.out();
+    protected void execute() {
+        intake.wristDown();
     }
 
     @Override
@@ -25,6 +25,6 @@ public class IntakeOut extends CommandBase {
 
     @Override
     protected void end() {
-        intake.stop();
+        intake.wristStop();
     }
 }

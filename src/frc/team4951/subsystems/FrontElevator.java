@@ -23,16 +23,15 @@ public class FrontElevator extends Subsystem {
 
     private DigitalInput bottomSwitch;
 
-    private static final int TIMEOUT = 30, CRUISE_VEL = 0, ACCELERATION = 0,
+    private static final int TIMEOUT = 30, CRUISE_VEL = 500, ACCELERATION = 500,
                                 TOP_LIMIT = 10000, BOTTOM_LIMIT = 100, THRESHOLD = 10;
 
-    private static final double KF = 0.0,
+    private static final double KF = 1.8366,
                                 KP = 0.0,
                                 KI = 0.0,
                                 KD = 0.0;
-    
-    // TODO find encoder ticks per inch of movement
-    private static final double TICKS_PER_INCH = 500;
+
+    private static final int[] ENCODER_TICKS = {0, 6000, 10000, 12000};
 
     private static int topSpeed = 0;
 
@@ -89,18 +88,18 @@ public class FrontElevator extends Subsystem {
     
     public void reset () {talon.setSelectedSensorPosition(0);}
     
-    public boolean onTarget() {
-        return Math.abs(talon.getClosedLoopTarget() - talon.getClosedLoopError()) <= THRESHOLD;
+    public int getPosition() {
+        return talon.getSelectedSensorPosition();
     }
 
     public boolean getBottomLimit() {
-        return bottomSwitch.get();
+        return !bottomSwitch.get();
     }
 
     /**
      * @param height Height of the elevator to travel, in encoder ticks
      */
-    public void setHeight(double height) {
+    public void setHeight(int height) {
         talon.set(ControlMode.MotionMagic, height);
     }
     
@@ -108,7 +107,19 @@ public class FrontElevator extends Subsystem {
      * @param speed Percent output from -1 to 1
      */
     public void manualMove(double speed) {
+        if (getBottomLimit()) {
+            speed = Math.max(0, speed);
+            reset();
+        }
         talon.set(ControlMode.PercentOutput, speed);
     }
+
+    public static int getBaseHeight() {return ENCODER_TICKS[0];}
+
+    public static int getSwitchHeight() {return ENCODER_TICKS[1];}
+
+    public static int getLowScaleHeight() {return ENCODER_TICKS[2];}
+
+    public static int getHighScaleHeight() {return ENCODER_TICKS[3];}
     
 }

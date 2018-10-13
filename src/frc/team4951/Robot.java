@@ -42,6 +42,9 @@ public class Robot extends TimedRobot {
     public void robotInit() 
     {
         CommandBase.init();
+
+//        CameraServer.getInstance().startAutomaticCapture();
+
         start.addDefault("Left", Autonomous.StartPosition.LEFT);
         start.addObject("Center", Autonomous.StartPosition.CENTER);
         start.addObject("Right", Autonomous.StartPosition.RIGHT);
@@ -51,7 +54,9 @@ public class Robot extends TimedRobot {
         chooser.addObject("Switch", Autonomous.AutoMode.SWITCH);
         chooser.addDefault("Drive", Autonomous.AutoMode.DRIVE);
         SmartDashboard.putData("Auto Mode", chooser);
-        
+
+        SmartDashboard.putData("Drivetrain PID", CommandBase.driveTrain);
+
         compressor = new Compressor();
         compressor.start();
     }
@@ -84,7 +89,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
-        new Turn(180).start();
+//        new Turn(180).start();
 //        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
         
   //      autonomousCommand.start();
@@ -111,17 +116,15 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
 
-        Command arcadeDrive = new ArcadeDrive();
-        arcadeDrive.start();
+        new ArcadeDrive().start();
 
-        Command backElevatorControls = new BackElevatorControl();
-        backElevatorControls.start();
-        
-        Command intakeControl = new IntakeControl();
-        intakeControl.start();
-        
-        Command frontElevatorControl = new FrontElevatorManual();
-        frontElevatorControl.start();
+        new BackElevatorControl().start();
+
+        new IntakeControl().start();
+
+        new FrontElevatorManual().start();
+
+        new ElevatorAutomatic().start();
     }
 
     /**
@@ -137,8 +140,9 @@ public class Robot extends TimedRobot {
      * This function is called periodically during test mode.
      */
     @Override
-    public void testPeriodic() 
-    {}
+    public void testPeriodic() {
+
+    }
     
     private void log() {
         DriveTrain.getInstance().log();
