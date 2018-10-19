@@ -43,9 +43,9 @@ public class Intake extends Subsystem {
     
     public void close() {solenoid.set(DoubleSolenoid.Value.kReverse);}
     
-    public void wristUp() {wrist.set(WRIST_SPEED);}
+    public void wristUp() {wrist.set(-WRIST_SPEED);}
     
-    public void wristDown() {wrist.set(-WRIST_SPEED);}
+    public void wristDown() {wrist.set(WRIST_SPEED);}
 
     public void wristStop() {wrist.set(0);}
     

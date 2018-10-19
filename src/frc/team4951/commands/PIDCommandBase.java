@@ -5,11 +5,7 @@ import frc.team4951.subsystems.DriveTrain;
 
 public abstract class PIDCommandBase extends PIDCommand {
 
-    static DriveTrain driveTrain;
-
-    private void init() {
-        driveTrain = DriveTrain.getInstance();
-    }
+    public static DriveTrain driveTrain;
 
     public PIDCommandBase(String name, double p, double i, double d) {
         super(name, p, i, d);
@@ -25,5 +21,9 @@ public abstract class PIDCommandBase extends PIDCommand {
 
     public PIDCommandBase(double p, double i, double d, double period) {
         super(p, i, d, period);
+    }
+
+    public static void init() {
+        driveTrain = DriveTrain.getInstance();
     }
 }

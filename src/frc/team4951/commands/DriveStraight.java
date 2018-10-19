@@ -28,6 +28,8 @@ public class DriveStraight extends CommandBase {
 
     @Override
     protected void end() {
+        driveTrain.disable();
         driveTrain.stop();
+        driveTrain.reset();
     }
 }

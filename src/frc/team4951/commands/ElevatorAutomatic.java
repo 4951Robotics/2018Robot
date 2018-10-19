@@ -2,6 +2,7 @@ package frc.team4951.commands;
 
 import frc.team4951.ButtonDebouncer;
 import frc.team4951.OI;
+import frc.team4951.subsystems.FrontElevator;
 
 public class ElevatorAutomatic extends CommandBase {
 
@@ -18,15 +19,15 @@ public class ElevatorAutomatic extends CommandBase {
     protected void execute() {
 
         if (aDebouncer.get()) {
-            new ElevatorHeight(frontElevator.getSwitchHeight()).start();
+            new ElevatorHeight(FrontElevator.getSwitchHeight()).start();
         }
 
         if (xDebouncer.get()) {
-            new ElevatorHeight(frontElevator.getLowScaleHeight()).start();
+            new ElevatorHeight(FrontElevator.getLowScaleHeight()).start();
         }
 
         if (yDebouncer.get()) {
-            new ElevatorHeight(frontElevator.getHighScaleHeight()).start();
+            new ElevatorHeight(FrontElevator.getHighScaleHeight()).start();
         }
 
     }

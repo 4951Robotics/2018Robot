@@ -38,11 +38,11 @@ public class Autonomous extends CommandGroup {
                 break;
             case SCALE:
                 if (posChar == gameData.charAt(1)) {
-                    addSequential(new Scale(position));
+                    addSequential(new Scale(position, gameData.charAt(1)));
                 } else if (posChar == gameData.charAt(0)) {
-                    addSequential(new Switch(position, posChar));
+                    addSequential(new Switch(position, gameData.charAt(0)));
                 } else {
-                    addSequential(new AutoLine());
+                    addSequential(new Scale(position, gameData.charAt(1)));
                 }
                 break;
             case SWITCH:

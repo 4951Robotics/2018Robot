@@ -23,17 +23,19 @@ public class FrontElevator extends Subsystem {
 
     private DigitalInput bottomSwitch;
 
-    private static final int TIMEOUT = 30, CRUISE_VEL = 500, ACCELERATION = 500,
-                                TOP_LIMIT = 10000, BOTTOM_LIMIT = 100, THRESHOLD = 10;
+    private DigitalInput topSwitch;
+
+    private static final int TIMEOUT = 30, CRUISE_VEL = 500, ACCELERATION = 750,
+                                TOP_LIMIT = 25900;
 
     private static final double KF = 1.8366,
                                 KP = 0.0,
                                 KI = 0.0,
                                 KD = 0.0;
 
-    private static final int[] ENCODER_TICKS = {0, 6000, 10000, 12000};
+    private static final int[] ENCODER_TICKS = {8000, 19000, 25900};
 
-    private static int topSpeed = 0;
+    private static final double DEADZONE = 0.2; // Deadzone for controller
 
     public static FrontElevator getInstance() {
         if (instance == null)
@@ -46,6 +48,8 @@ public class FrontElevator extends Subsystem {
         talon = new WPI_TalonSRX(RobotMap.FRONT_ELEVATOR_TALON);
 
         bottomSwitch = new DigitalInput(RobotMap.BOTTOM_LIMIT_SWITCH);
+
+        topSwitch = new DigitalInput(RobotMap.TOP_LIMIT_SWITCH);
 
         talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
         talon.setSensorPhase(true);
@@ -64,9 +68,9 @@ public class FrontElevator extends Subsystem {
         
         talon.configMotionCruiseVelocity(CRUISE_VEL);
         talon.configMotionAcceleration(ACCELERATION);
-//        talon.configForwardSoftLimitThreshold(TOP_LIMIT);
+        talon.configForwardSoftLimitThreshold(TOP_LIMIT);
 //        talon.configReverseSoftLimitThreshold(BOTTOM_LIMIT);
-//        talon.configForwardSoftLimitEnable(true);
+        talon.configForwardSoftLimitEnable(true);
 //        talon.configReverseSoftLimitEnable(true);
         talon.setNeutralMode(NeutralMode.Brake);
         reset();
@@ -77,15 +81,8 @@ public class FrontElevator extends Subsystem {
     
     public void log() {
         SmartDashboard.putNumber("Elevator Encoder", talon.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Elevator Rotations", talon.getSelectedSensorPosition() / 4096.0);
-        if (talon.getSelectedSensorVelocity() > topSpeed)
-            topSpeed = talon.getSelectedSensorVelocity();
-        SmartDashboard.putNumber("Top Speed: ", topSpeed);
-
     }
-    
-    public void neutralMode(NeutralMode neutralMode) {talon.setNeutralMode(neutralMode);}
-    
+
     public void reset () {talon.setSelectedSensorPosition(0);}
     
     public int getPosition() {
@@ -95,6 +92,8 @@ public class FrontElevator extends Subsystem {
     public boolean getBottomLimit() {
         return !bottomSwitch.get();
     }
+
+    public boolean getTopLimit() {return !topSwitch.get();}
 
     /**
      * @param height Height of the elevator to travel, in encoder ticks
@@ -110,16 +109,24 @@ public class FrontElevator extends Subsystem {
         if (getBottomLimit()) {
             speed = Math.max(0, speed);
             reset();
+        } else if (getTopLimit()) {
+            speed = Math.min(0, speed);
+            talon.setSelectedSensorPosition(25900);
         }
+
         talon.set(ControlMode.PercentOutput, speed);
     }
 
-    public static int getBaseHeight() {return ENCODER_TICKS[0];}
+    public void setEncoderPosition(int pos) {talon.setSelectedSensorPosition(pos);}
 
-    public static int getSwitchHeight() {return ENCODER_TICKS[1];}
+    public int getTopEncoderLimit() {return TOP_LIMIT;}
 
-    public static int getLowScaleHeight() {return ENCODER_TICKS[2];}
+    public double getDeadzone() {return DEADZONE;}
 
-    public static int getHighScaleHeight() {return ENCODER_TICKS[3];}
+    public static int getSwitchHeight() {return ENCODER_TICKS[0];}
+
+    public static int getLowScaleHeight() {return ENCODER_TICKS[1];}
+
+    public static int getHighScaleHeight() {return ENCODER_TICKS[2];}
     
 }

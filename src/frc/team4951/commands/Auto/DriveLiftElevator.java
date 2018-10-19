@@ -6,7 +6,7 @@ import frc.team4951.commands.ElevatorHeight;
 
 public class DriveLiftElevator extends CommandGroup {
 
-    public  DriveLiftElevator(int distance, int height) {
+    DriveLiftElevator(int distance, int height) {
         this.addParallel(new DriveStraight(distance));
         this.addParallel(new ElevatorHeight(height));
     }

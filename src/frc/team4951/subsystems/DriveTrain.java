@@ -24,7 +24,7 @@ public class DriveTrain extends PIDSubsystem {
 
     private static final double kP = 1.0/90;
 
-    private static final double INCHES_PER_PULSE = 6 * Math.PI / 10.71 / 1440; // TODO find inches travelled per encoder pulse
+    private static final double INCHES_PER_PULSE = 6 * Math.PI / 360;  // Wheel diameter of 6 inches and 360 encoder pulses per rotation
 
     private DifferentialDrive drive;
     
@@ -34,11 +34,11 @@ public class DriveTrain extends PIDSubsystem {
 
     private DriveTrain() {
 
-        super(0.01, 0.0, 0.0);
+        super("DriveTrain PID", 0.025, 0.0, 0.25);
 
-        setAbsoluteTolerance(1.0/12);
+        setAbsoluteTolerance(1);
 
-        setOutputRange(-0.8, 0.8);
+        setOutputRange(-0.7, 0.7);
 
         VictorSP left = new VictorSP(RobotMap.LEFT_VICTOR);
         VictorSP right = new VictorSP(RobotMap.RIGHT_VICTOR);
@@ -47,8 +47,11 @@ public class DriveTrain extends PIDSubsystem {
 
         encoder = new Encoder(RobotMap.RIGHT_ENCODER_A, RobotMap.RIGHT_ENCODER_B);
         encoder.setDistancePerPulse(INCHES_PER_PULSE);
+        encoder.reset();
         
         gyro = new AnalogGyro(RobotMap.GYRO_CHANNEL);
+        gyro.calibrate();
+        gyro.reset();
 
     }
 
@@ -66,7 +69,7 @@ public class DriveTrain extends PIDSubsystem {
     protected void usePIDOutput (double output) {
         double error = -getGyro();
         double rotation = 0;
-        if (Math.abs(error) > 1) {
+        if (Math.abs(error) > 5) {
             rotation = error * kP;
         }
         arcadeDrive(output, rotation);
@@ -86,6 +89,7 @@ public class DriveTrain extends PIDSubsystem {
     public double getGyro() {return gyro.getAngle();}
 
     public void log() {
+        SmartDashboard.putData("Drive PID", this.getPIDController());
         SmartDashboard.putNumber("Encoder", encoder.get());
         SmartDashboard.putNumber("Encoder Distance", encoder.getDistance());
         SmartDashboard.putNumber("Gyro", gyro.getAngle());

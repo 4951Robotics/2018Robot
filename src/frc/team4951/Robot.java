@@ -7,6 +7,7 @@
 
 package frc.team4951;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +15,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team4951.commands.*;
+import frc.team4951.commands.Auto.AutoLine;
 import frc.team4951.commands.Auto.Autonomous;
+import frc.team4951.commands.Auto.DriveLiftElevator;
 import frc.team4951.subsystems.DriveTrain;
 import frc.team4951.subsystems.FrontElevator;
 
@@ -42,20 +45,19 @@ public class Robot extends TimedRobot {
     public void robotInit() 
     {
         CommandBase.init();
+        PIDCommandBase.init();
 
-//        CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture();
 
         start.addDefault("Left", Autonomous.StartPosition.LEFT);
         start.addObject("Center", Autonomous.StartPosition.CENTER);
         start.addObject("Right", Autonomous.StartPosition.RIGHT);
-        SmartDashboard.putData("Starting Position", start);
+        SmartDashboard.putData("Start", start);
         
         chooser.addObject("Scale", Autonomous.AutoMode.SCALE);
         chooser.addObject("Switch", Autonomous.AutoMode.SWITCH);
         chooser.addDefault("Drive", Autonomous.AutoMode.DRIVE);
         SmartDashboard.putData("Auto Mode", chooser);
-
-        SmartDashboard.putData("Drivetrain PID", CommandBase.driveTrain);
 
         compressor = new Compressor();
         compressor.start();
@@ -89,10 +91,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
-//        new Turn(180).start();
-//        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
+        autonomousCommand = new Autonomous(start.getSelected(), chooser.getSelected());
         
-  //      autonomousCommand.start();
+        autonomousCommand.start();
     }
 
     /**
@@ -141,7 +142,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-
     }
     
     private void log() {

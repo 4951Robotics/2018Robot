@@ -1,14 +1,18 @@
 package frc.team4951.commands;
 
-public class Turn extends PIDCommandBase {
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class Turn extends CommandBase {
+
+    private double setpoint;
+    private double error;
+    private double turnSpeed;
+
 
     public Turn(double t) {
-        super("Gyro PID", 1.0/135, 0 , 0);
-        getPIDController().setAbsoluteTolerance(2);
-        getPIDController().setContinuous(true);
-        getPIDController().setInputRange(0, 360);
-        getPIDController().setOutputRange(-0.7, 0.7);
-        setSetpoint(t);
+        setpoint = t;
+        error = 0;
+        turnSpeed = 0;
     }
 
     @Override
@@ -18,27 +22,20 @@ public class Turn extends PIDCommandBase {
 
     @Override
     protected void execute() {
-        getPIDController().enable();
+        error = setpoint - driveTrain.getGyro();
+        if (error > 3) {
+            driveTrain.arcadeDrive(0, 0.5);
+        }
     }
 
     @Override
     protected boolean isFinished() {
-        return getPIDController().onTarget();
+        return Math.abs(error) <= 3;
     }
 
     @Override
     protected void end() {
         driveTrain.stop();
-        driveTrain.reset();
     }
 
-    @Override
-    protected double returnPIDInput() {
-        return driveTrain.getGyro();
-    }
-
-    @Override
-    protected void usePIDOutput(double output) {
-        driveTrain.arcadeDrive(0, output);
-    }
 }

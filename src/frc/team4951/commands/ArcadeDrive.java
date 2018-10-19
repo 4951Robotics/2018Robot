@@ -13,7 +13,13 @@ public class ArcadeDrive extends CommandBase {
     }
 
     @Override
-    protected void execute() {driveTrain.arcadeDrive(-OI.getDriverLeftY(), OI.getDriverRightX(), true);}
+    protected void execute() {
+        if (OI.getDriverRB()) {
+            driveTrain.arcadeDrive(-OI.getDriverLeftY(), OI.getDriverRightX() / 1.5);
+        } else {
+            driveTrain.arcadeDrive(-OI.getDriverLeftY() / 1.3, OI.getDriverRightX() / 1.5);
+        }
+    }
 
     @Override
     protected boolean isFinished() {return false;}

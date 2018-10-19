@@ -39,6 +39,10 @@ public class OI {
 
     public static double getDriverRightX() {return driverController.getRawAxis(RIGHT_STICK_X);}
 
+    public static boolean getDriverRB() {return driverController.getRawButton(RB);}
+
+    public static boolean getDriverAButton() {return driverController.getRawButton(A_BUTTON);}
+
     public static double getOperatorRightY() {return operatorController.getRawAxis(RIGHT_STICK_Y);}
     
     public static double getOperatorLeftY() {return operatorController.getRawAxis(LEFT_STICK_Y);}
